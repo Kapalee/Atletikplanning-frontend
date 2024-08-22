@@ -85,86 +85,89 @@ const CreateEvent: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <h1>Create Event</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>Event created successfully!</p>}
-      <form onSubmit={handleSubmit}>
-        <select
-          name="disciplineId"
-          value={eventData.disciplineId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Discipline</option>
-          {disciplines.map((discipline) => (
-            <option key={discipline.id} value={discipline.id}>
-              {discipline.name}
-            </option>
-          ))}
-        </select>
+    return (
+      <div className="create-event-container">
+        {" "}
+        {/* Add the class name here */}
+        <h1>Create Event</h1>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && (
+          <p style={{ color: "green" }}>Event created successfully!</p>
+        )}
+        <form onSubmit={handleSubmit}>
+          <select
+            name="disciplineId"
+            value={eventData.disciplineId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Discipline</option>
+            {disciplines.map((discipline) => (
+              <option key={discipline.id} value={discipline.id}>
+                {discipline.name}
+              </option>
+            ))}
+          </select>
 
-        <select
-          name="trackId"
-          value={eventData.trackId}
-          onChange={handleChange}
-          required
-          disabled={!eventData.disciplineId} // Disable if no discipline is selected
-        >
-          <option value="">Select Track</option>
-          {tracks.map((track) => (
-            <option key={track.id} value={track.id}>
-              {track.type} {/* Assuming track has a 'type' property */}
-            </option>
-          ))}
-        </select>
+          <select
+            name="trackId"
+            value={eventData.trackId}
+            onChange={handleChange}
+            required
+            disabled={!eventData.disciplineId} // Disable if no discipline is selected
+          >
+            <option value="">Select Track</option>
+            {tracks.map((track) => (
+              <option key={track.id} value={track.id}>
+                {track.type} {/* Assuming track has a 'type' property */}
+              </option>
+            ))}
+          </select>
 
-        {/* Other input fields remain unchanged */}
-        <input
-          type="text"
-          name="timeSlotId"
-          placeholder="Time Slot ID"
-          value={eventData.timeSlotId}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="minimumDuration"
-          placeholder="Minimum Duration"
-          value={eventData.minimumDuration}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="participantsGender"
-          placeholder="Participants Gender"
-          value={eventData.participantsGender}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="participantAgeGroup"
-          placeholder="Participant Age Group"
-          value={eventData.participantAgeGroup}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="maximumParticipants"
-          placeholder="Max Participants"
-          value={eventData.maximumParticipants}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Create Event</button>
-      </form>
-    </div>
-  );
+          <input
+            type="text"
+            name="timeSlotId"
+            placeholder="Time Slot ID"
+            value={eventData.timeSlotId}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="minimumDuration"
+            placeholder="Minimum Duration"
+            value={eventData.minimumDuration}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="participantsGender"
+            placeholder="Participants Gender"
+            value={eventData.participantsGender}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="participantAgeGroup"
+            placeholder="Participant Age Group"
+            value={eventData.participantAgeGroup}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="maximumParticipants"
+            placeholder="Max Participants"
+            value={eventData.maximumParticipants}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Create Event</button>
+        </form>
+      </div>
+    );
 };
 
 export default CreateEvent;

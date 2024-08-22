@@ -1,3 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+ /*                           EVENT LIST STYLING                           */
+.event-list {
+  font-family: Arial, sans-serif; /* Change font family */
+  font-size: 18px; /* Increase font size */
+  margin: 20px; /* Add margin around the list */
+}
+
+.event-list ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove padding */
+}
+
+.event-list li {
+  background-color: #f9f9f9; /* Light background color */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding inside each list item */
+  margin-bottom: 10px; /* Space between list items */
+  transition: box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+.event-list li:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+}
+
+.event-list h1 {
+  font-size: 24px; /* Increase header font size */
+  margin-bottom: 15px; /* Space below the header */
+}
+
+/* New styles for labels */
+.event-list .label {
+  font-weight: bold; /* Make labels bold */
+}
+
+.event-list .value {
+  font-weight: normal; /* Keep values normal */
+}
+
+/*                           CREATE EVENT STYLING                           */
+
+
+.create-event-container {
+  background-color: #ffffff; /* White background for the box */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding inside the box */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 500px; /* Maximum width of the box */
+  margin: 20px auto; /* Center the box horizontally */
+}
+
+.create-event-container h1 {
+  text-align: center; /* Center the title */
+}
+
+.create-event-container form {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack elements vertically */
+}
+
+.create-event-container input,
+.create-event-container select,
+.create-event-container button {
+  margin-bottom: 15px; /* Space between form elements */
+  padding: 10px; /* Padding inside input fields */
+  border: 1px solid #ccc; /* Border for input fields */
+  border-radius: 4px; /* Rounded corners for input fields */
+}
+
+.create-event-container button {
+  background-color: #4CAF50; /* Green background for the button */
+  color: white; /* White text color */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.create-event-container button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}

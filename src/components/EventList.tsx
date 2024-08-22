@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getEvents } from "../services/EventService";
 import { getTracks } from "../services/TrackService";
-import { Event, Track } from "../interfaces/types"; // Import the interfaces
+import { Event, Track } from "../interfaces/types"; 
+
 
 const EventList: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]); // Use Event type
-  const [tracks, setTracks] = useState<Track[]>([]); // Use Track type
+  const [events, setEvents] = useState<Event[]>([]); 
+  const [tracks, setTracks] = useState<Track[]>([]); 
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,31 +49,52 @@ const EventList: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  return (
-    <div>
-      <h1>Event List</h1>
-      <ul>
-        {events.map((event) => {
-          const track = tracks.find((t) => t.id === event.track.id); // Match track by ID
-          console.log("Processing event:", event); // Log each event being processed
-          return (
-            <li key={event.id}>
-              <p>Discipline: {event.discipline.name}</p>
-              <p>Track nr: {track ? track.id : "Track not found"}</p>{" "}
-              {/* Display track type */}
-              <p>
-                Time Slot: {event.timeSlot.startTime} - {event.timeSlot.endTime}
-              </p>
-              <p>Minimum Duration: {event.minimumDuration} minutes</p>
-              <p>Participants Gender: {event.participantsGender}</p>
-              <p>Age Group: {event.participantAgeGroup}</p>
-              <p>Max Participants: {event.maximumParticipants}</p>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+return (
+  <div className="event-list">
+    <h1>Event List</h1>
+    <ul>
+      {events.map((event) => {
+        const track = tracks.find((t) => t.id === event.track.id); // Match track by ID
+        return (
+          <li key={event.id}>
+            <p>
+              <span className="label">Discipline:</span>{" "}
+              <span className="value">{event.discipline.name}</span>
+            </p>
+            <p>
+              <span className="label">Track nr:</span>{" "}
+              <span className="value">
+                {track ? track.id : "Track not found"}
+              </span>
+            </p>
+            <p>
+              <span className="label">Time Slot:</span>{" "}
+              <span className="value">
+                {event.timeSlot.startTime} - {event.timeSlot.endTime}
+              </span>
+            </p>
+            <p>
+              <span className="label">Minimum Duration:</span>{" "}
+              <span className="value">{event.minimumDuration} minutes</span>
+            </p>
+            <p>
+              <span className="label">Participants Gender:</span>{" "}
+              <span className="value">{event.participantsGender}</span>
+            </p>
+            <p>
+              <span className="label">Age Group:</span>{" "}
+              <span className="value">{event.participantAgeGroup}</span>
+            </p>
+            <p>
+              <span className="label">Max Participants:</span>{" "}
+              <span className="value">{event.maximumParticipants}</span>
+            </p>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+);
 };
 
 export default EventList;
