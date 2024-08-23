@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
- /*                           EVENT LIST STYLING                           */
+/*                           EVENT LIST STYLING                           */
 .event-list {
   font-family: Arial, sans-serif; /* Change font family */
   font-size: 18px; /* Increase font size */
@@ -44,7 +43,6 @@
 
 /*                           CREATE EVENT STYLING                           */
 
-
 .create-event-container {
   background-color: #ffffff; /* White background for the box */
   border: 1px solid #ddd; /* Light border */
@@ -74,11 +72,81 @@
 }
 
 .create-event-container button {
-  background-color: #4CAF50; /* Green background for the button */
+  background-color: #4caf50; /* Green background for the button */
   color: white; /* White text color */
   cursor: pointer; /* Pointer cursor on hover */
 }
 
 .create-event-container button:hover {
   background-color: #45a049; /* Darker green on hover */
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+/*                           UPDATE DIALOG STYLING                           */
+
+/* Dialog container */
+.dialog {
+  position: fixed; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  background-color: white; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  padding: 20px; 
+  z-index: 1000; 
+  width: 400px; 
+}
+
+/* Dialog header */
+.dialog h2 {
+  margin-top: 0; 
+}
+
+/* Form elements */
+.dialog input,
+.dialog select {
+  width: 100%; 
+  padding: 10px; 
+  margin: 10px 0; 
+  border: 1px solid #ccc;
+  border-radius: 4px; 
+}
+
+/* Buttons */
+.dialog button {
+  background-color: #4caf50; 
+  color: white; 
+  border: none; 
+  border-radius: 4px; 
+  padding: 10px 15px; 
+  cursor: pointer; 
+  margin-right: 10px; 
+  transition: background-color 0.3s; 
+}
+
+.dialog button:hover {
+  background-color: #45a049; 
+}
+
+/* Cancel button */
+.dialog button.cancel {
+  background-color: #f44336; 
+}
+
+.dialog button.cancel:hover {
+  background-color: #e53935; 
 }

@@ -1,24 +1,40 @@
 export interface Discipline {
-  id: string; // or number, depending on your backend
+  id: string; 
   name: string;
 }
 
 export interface Track {
-  id: string; // or number, depending on your backend
+  id: string; 
   type: string;
-  discipline: Discipline; // Assuming each track has a discipline associated with it
+  discipline: Discipline; 
 }
 
 export interface Event {
-  id: string; // or number, depending on your backend
-  discipline: Discipline; // Assuming each event has a discipline
-  track: Track; // Assuming each event has a track
+  id: string; 
+  discipline: Discipline; 
+  track: Track; 
   timeSlot: {
-    startTime: string; // Adjust type as necessary
-    endTime: string; // Adjust type as necessary
+    id: string;
+    startTime: string; 
+    endTime: string; 
   };
   minimumDuration: number;
   participantsGender: string;
   participantAgeGroup: string;
   maximumParticipants: number;
 }
+
+export interface TimeSlot {
+  id: string;
+  label: string; 
+}
+
+
+export interface DetailedTimeSlot {
+  id: string; 
+  startTime: number; 
+  endTime: number;   
+  date: string; 
+  label: string; 
+}
+
