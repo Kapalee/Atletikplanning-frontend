@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Event, Track } from "../interfaces/types";
-import { updateEvent } from "../services/EventService"; 
-import { getTracks } from "../services/TrackService"; 
+import { updateEvent } from "../services/EventService";
+import { getTracks } from "../services/TrackService";
 
 interface UpdateEventDialogProps {
-  event: Event; 
-  onClose: () => void; 
-  onUpdate: (updatedEvent: Event) => void; 
+  event: Event;
+  onClose: () => void;
+  onUpdate: (updatedEvent: Event) => void;
 }
 
 const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
@@ -16,15 +16,15 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
 }) => {
   const [eventData, setEventData] = useState<Event>(event);
   const [tracks, setTracks] = useState<Track[]>([]);
-  const [filteredTracks, setFilteredTracks] = useState<Track[]>([]); 
+  const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const filterTracks = useCallback(
     (allTracks: Track[]) => {
-      const disciplineId = eventData.discipline.id; 
+      const disciplineId = eventData.discipline.id;
       const filtered = allTracks.filter(
-        (track) => track.discipline.id === disciplineId 
+        (track) => track.discipline.id === disciplineId
       );
       setFilteredTracks(filtered);
     },
@@ -44,7 +44,7 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
     };
 
     fetchTracks();
-  }, [filterTracks]); 
+  }, [filterTracks]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -54,8 +54,10 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
       ...prevData,
       [name]: value,
     }));
+
+    // If disciplineId changes, filter tracks
     if (name === "disciplineId") {
-      filterTracks(tracks); 
+      filterTracks(tracks);
     }
   };
 
@@ -63,10 +65,10 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
     e.preventDefault();
     try {
       const updatedEvent = await updateEvent(event.id, eventData);
-      onUpdate(updatedEvent); 
+      onUpdate(updatedEvent);
       setSuccess(true);
       setError(null);
-      onClose(); 
+      onClose();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to update event");
@@ -98,14 +100,14 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
         />
         <select
           name="trackId"
-          value={eventData.track?.id}
+          value={eventData.track?.id || ""}
           onChange={handleChange}
           required
         >
           <option value="">Select Track</option>
           {filteredTracks.map((track) => (
             <option key={track.id} value={track.id}>
-              {track.type}
+              {track.type} {track.id}
             </option>
           ))}
         </select>
@@ -119,3 +121,4 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
 };
 
 export default UpdateEventDialog;
+

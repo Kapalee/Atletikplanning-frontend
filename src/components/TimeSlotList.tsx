@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTimeSlots } from "../services/TimeSlotService";
-import { getEvents } from "../services/EventService";
+import { deleteEvent, getEvents } from "../services/EventService";
 import { DetailedTimeSlot, Event } from "../interfaces/types";
 
 const TimeSlotList: React.FC = () => {
@@ -8,34 +8,44 @@ const TimeSlotList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-   useEffect(() => {
-     const fetchTimeSlots = async () => {
-       try {
-         const data = await getTimeSlots();
-         console.log("Fetched Time Slots:", data); 
-         setTimeSlots(data);
-       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-       } catch (err) {
-         setError("Failed to fetch time slots");
-       }
-     };
+  useEffect(() => {
+    const fetchTimeSlots = async () => {
+      try {
+        const data = await getTimeSlots();
+        console.log("Fetched Time Slots:", data);
+        setTimeSlots(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        setError("Failed to fetch time slots");
+      }
+    };
 
-     const fetchEvents = async () => {
-       try {
-         const data = await getEvents();
-         setEvents(data);
-       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-       } catch (err) {
-         setError("Failed to fetch events");
-       }
-     };
+    const fetchEvents = async () => {
+      try {
+        const data = await getEvents();
+        setEvents(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        setError("Failed to fetch events");
+      }
+    };
 
-     fetchTimeSlots();
-     fetchEvents();
-   }, []);
+    fetchTimeSlots();
+    fetchEvents();
+  }, []);
 
   const hasEvent = (timeSlotId: string) => {
     return events.some((event) => event.timeSlot.id === timeSlotId);
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    try {
+      await deleteEvent(eventId);
+      setEvents(events.filter((event) => event.id !== eventId));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError("Failed to delete event");
+    }
   };
 
   return (
@@ -67,9 +77,20 @@ const TimeSlotList: React.FC = () => {
                   .replace(/(\d{2})(\d{2})/, "$1:$2")
               : "N/A"}{" "}
             <br />
-            {hasEvent(timeSlot.id) && (
-              <span className="text-red-600">Event Scheduled</span>
-            )}
+            {events
+              .filter((event) => event.timeSlot.id === timeSlot.id)
+              .map((event) => (
+                <div key={event.id}>
+                  <span className="text-red-600">Event ID: {event.id}</span>
+                  <br />
+                  <button
+                    onClick={() => handleDeleteEvent(event.id)}
+                    className="text-red-500"
+                  >
+                    Delete Event
+                  </button>
+                </div>
+              ))}
           </div>
         ))}
       </div>

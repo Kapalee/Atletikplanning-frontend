@@ -10,28 +10,28 @@ const EventList: React.FC = () => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null); 
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); 
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const data = await getEvents();
-        console.log("Fetched events:", data); 
+        console.log("Fetched events:", data);
         setEvents(data);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         setError("Failed to fetch events");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     const fetchTracks = async () => {
       try {
         const data = await getTracks();
-        console.log("Fetched tracks:", data); 
+        console.log("Fetched tracks:", data);
         setTracks(data);
       } catch (err) {
         console.error("Error fetching tracks:", err);
@@ -53,22 +53,22 @@ const EventList: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteEvent(id); 
-      setEvents(events.filter((event) => event.id !== id)); 
+      await deleteEvent(id);
+      setEvents(events.filter((event) => event.id !== id));
     } catch (err) {
-      console.error("Error deleting event:", err); 
+      console.error("Error deleting event:", err);
       setError("Failed to delete event");
     }
   };
 
   const handleUpdateClick = (event: Event) => {
     setSelectedEvent(event);
-    setIsDialogOpen(true); 
+    setIsDialogOpen(true);
   };
 
   const handleDialogClose = () => {
-    setIsDialogOpen(false); 
-    setSelectedEvent(null); 
+    setIsDialogOpen(false);
+    setSelectedEvent(null);
   };
 
   const handleEventUpdate = (updatedEvent: Event) => {
@@ -92,9 +92,13 @@ const EventList: React.FC = () => {
       <h1>Event List</h1>
       <ul>
         {events.map((event) => {
-          const track = tracks.find((t) => t.id === event.track.id); 
+          const track = tracks.find((t) => t.id === event.track.id);
           return (
             <li key={event.id}>
+              <p>
+                <span className="label">Event ID:</span>{" "}
+                <span className="value">{event.id}</span>
+              </p>
               <p>
                 <span className="label">Discipline:</span>{" "}
                 <span className="value">{event.discipline.name}</span>
@@ -138,14 +142,13 @@ const EventList: React.FC = () => {
           );
         })}
       </ul>
-      {isDialogOpen &&
-        selectedEvent && (
-          <UpdateEventDialog
-            event={selectedEvent}
-            onClose={handleDialogClose}
-            onUpdate={handleEventUpdate}
-          />
-        )}
+      {isDialogOpen && selectedEvent && (
+        <UpdateEventDialog
+          event={selectedEvent}
+          onClose={handleDialogClose}
+          onUpdate={handleEventUpdate}
+        />
+      )}
     </div>
   );
 };
