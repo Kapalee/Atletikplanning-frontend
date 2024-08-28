@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useCallback } from "react";
 import { Event, Track } from "../interfaces/types";
 import { updateEvent } from "../services/EventService";
-import { getTracks } from "../services/TrackService";
+import { getTracksByDiscipline } from "../services/TrackService";
+
+const ageGroups = ["Junior", "Senior", "Women", "Men", "U18", "U21", "Open"];
 
 interface UpdateEventDialogProps {
   event: Event;
@@ -15,7 +18,6 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
   onUpdate,
 }) => {
   const [eventData, setEventData] = useState<Event>(event);
-  const [tracks, setTracks] = useState<Track[]>([]);
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -33,31 +35,41 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
 
   useEffect(() => {
     const fetchTracks = async () => {
-      try {
-        const data = await getTracks();
-        setTracks(data);
-        filterTracks(data);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
-        setError("Failed to fetch tracks");
+      if (eventData.discipline.id) {
+        try {
+          const disciplineId = Number(eventData.discipline.id);
+          const data = await getTracksByDiscipline(disciplineId);
+          console.log("Fetched tracks:", data);
+          filterTracks(data); // Call filterTracks here
+        } catch (err) {
+          setError("Failed to fetch tracks");
+        }
+      } else {
+        setFilteredTracks([]);
       }
     };
 
     fetchTracks();
-  }, [filterTracks]);
+  }, [eventData.discipline.id, filterTracks]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setEventData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
 
-    // If disciplineId changes, filter tracks
-    if (name === "disciplineId") {
-      filterTracks(tracks);
+    if (name === "trackId") {
+      const selectedTrack = filteredTracks.find(
+        (track) => track.id === Number(value)
+      );
+      setEventData((prevData) => ({
+        ...prevData,
+        track: selectedTrack || null,
+      }));
+    } else {
+      setEventData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
     }
   };
 
@@ -69,7 +81,6 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
       setSuccess(true);
       setError(null);
       onClose();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to update event");
       setSuccess(false);
@@ -90,14 +101,19 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
           placeholder="Minimum Duration"
           required
         />
-        <input
-          type="text"
+        <select
           name="participantAgeGroup"
           value={eventData.participantAgeGroup}
           onChange={handleChange}
-          placeholder="Participant Age Group"
           required
-        />
+        >
+          <option value="">Select Age Group</option>
+          {ageGroups.map((ageGroup) => (
+            <option key={ageGroup} value={ageGroup}>
+              {ageGroup}
+            </option>
+          ))}
+        </select>
         <select
           name="trackId"
           value={eventData.track?.id || ""}
@@ -121,4 +137,3 @@ const UpdateEventDialog: React.FC<UpdateEventDialogProps> = ({
 };
 
 export default UpdateEventDialog;
-

@@ -19,7 +19,7 @@ const CreateEvent: React.FC = () => {
   });
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]); 
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -36,7 +36,7 @@ const CreateEvent: React.FC = () => {
 
     const fetchTimeSlots = async () => {
       try {
-        const data = await getTimeSlots(); 
+        const data = await getTimeSlots();
         setTimeSlots(data);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
@@ -45,7 +45,7 @@ const CreateEvent: React.FC = () => {
     };
 
     fetchDisciplines();
-    fetchTimeSlots(); 
+    fetchTimeSlots();
   }, []);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const CreateEvent: React.FC = () => {
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      setError("Failed to create event");
+      setError("Event already exists in different time slot");
       setSuccess(false);
     }
   };
@@ -130,7 +130,7 @@ const CreateEvent: React.FC = () => {
           <option value="">Select Track</option>
           {tracks.map((track) => (
             <option key={track.id} value={track.id}>
-              {track.type} ({track.id}) 
+              {track.type} ({track.id})
             </option>
           ))}
         </select>
@@ -148,7 +148,7 @@ const CreateEvent: React.FC = () => {
             </option>
           ))}
         </select>
-        <h1>Minimum Duration</h1>
+        <h1>Minimum Duration (in minutes)</h1>
         <input
           type="number"
           name="minimumDuration"

@@ -137,7 +137,12 @@ const EventList: React.FC = () => {
               >
                 Delete
               </button>
-              <button onClick={() => handleUpdateClick(event)}>Update</button>
+              <button
+                className="update-button"
+                onClick={() => handleUpdateClick(event)}
+              >
+                Update
+              </button>
             </li>
           );
         })}
