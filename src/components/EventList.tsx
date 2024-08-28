@@ -92,7 +92,9 @@ const EventList: React.FC = () => {
       <h1>Event List</h1>
       <ul>
         {events.map((event) => {
-          const track = tracks.find((t) => t.id === event.track.id);
+          const track = event.track
+            ? tracks.find((t) => t.id === event.track?.id)
+            : null;
           return (
             <li key={event.id}>
               <p>
